@@ -4,16 +4,45 @@
             <BaseLinkButton @click="onClickTitle">My Blog</BaseLinkButton>
         </div>
         <div class="right">
-            <BaseOutlineButton>My Accounts</BaseOutlineButton>
+            <BaseOutlineButton v-if="session && session.success" @click="onClickProfile">{{ accountName }}</BaseOutlineButton>
+            <BaseOutlineButton v-else @click="onClickLogin">ログイン</BaseOutlineButton>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-    //クリック処理
-    const onClickTitle = () => {
-        navigateTo('/');
-    };
+import { ref, onMounted } from 'vue'
+
+const config = useRuntimeConfig()
+const base = config.public.apiBase
+
+const session = ref<any>(null)
+const sessionSuccess = ref<boolean>(false)
+const accountName = ref("")
+
+onMounted(async () => {
+    session.value = await $fetch(`${base}/auth/session`, {
+        credentials: 'include'
+    })
+    if (session.value?.success) {
+        sessionSuccess.value = true
+        accountName.value = session.value.userName
+    }
+})
+
+
+const onClickTitle = () => {
+    navigateTo('/');
+};
+
+const onClickLogin = () => {
+    navigateTo('/login');
+};
+
+const onClickProfile = () => {
+    navigateTo('/profile');
+};
+
 </script>
 
 <style scoped Lang="scss">
