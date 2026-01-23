@@ -4,7 +4,6 @@
 
 <style scoped lang="scss">
     .input {
-        width: 100%;
         padding: 10px;
         margin: 4px;
         border: 1px solid #ccc;
