@@ -1,13 +1,20 @@
 <template>
     <div class="header">
         <div class="left">
-            <BaseLinkButton>My Blog</BaseLinkButton>
+            <BaseLinkButton @click="onClickTitle">My Blog</BaseLinkButton>
         </div>
         <div class="right">
             <BaseOutlineButton>My Accounts</BaseOutlineButton>
         </div>
     </div>
 </template>
+
+<script setup lang="ts">
+    //クリック処理
+    const onClickTitle = () => {
+        navigateTo('/');
+    };
+</script>
 
 <style scoped Lang="scss">
 .header {

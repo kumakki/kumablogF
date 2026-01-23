@@ -1,11 +1,15 @@
 <template>
-    <button>
+    <button @click="$emit('click')">
         <slot />
     </button>
 </template>
 
+<script setup lang="ts">
+    defineEmits(['click'])
+</script>
+
 <style scoped lang="scss">
-button{
+button {
     padding: 10px 20px;
     background-color: transparent;
     color: black;
