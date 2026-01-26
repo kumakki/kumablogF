@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     public: {
-      apiBase: 'http://localhost:7162/api'
+      apiBase: 'https://localhost:7162/api'
     }
   }
 
