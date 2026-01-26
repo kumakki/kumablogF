@@ -4,7 +4,7 @@
             <BaseLinkButton @click="onClickTitle">My Blog</BaseLinkButton>
         </div>
         <div class="right">
-            <BaseOutlineButton v-if="session && session.success" @click="onClickProfile">{{ accountName }}</BaseOutlineButton>
+            <BaseOutlineButton v-if="sessionSuccess" @click="onClickProfile">{{ accountName }}</BaseOutlineButton>
             <BaseOutlineButton v-else @click="onClickLogin">ログイン</BaseOutlineButton>
         </div>
     </div>
@@ -16,17 +16,25 @@ import { ref, onMounted } from 'vue'
 const config = useRuntimeConfig()
 const base = config.public.apiBase
 
-const session = ref<any>(null)
 const sessionSuccess = ref<boolean>(false)
 const accountName = ref("")
 
+type SessionResponse = {
+  success: boolean
+  data: string
+}
+
 onMounted(async () => {
-    session.value = await $fetch(`${base}/auth/session`, {
-        credentials: 'include'
-    })
-    if (session.value?.success) {
+    try {
+        const response = await $fetch<SessionResponse>(`${base}/auth/session`, {
+            credentials: "include"
+        })
+
         sessionSuccess.value = true
-        accountName.value = session.value.userName
+        accountName.value = response.data;
+
+    } catch (err: any) {
+        sessionSuccess.value = false
     }
 })
 
